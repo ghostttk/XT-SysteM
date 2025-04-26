@@ -2,136 +2,133 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loja de Gift Cards</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Cupom de Desconto Free</title>
   <style>
-    /* Reset básico */
+    /* Cores inspiradas em satzxsystem.shop (dark Steam-like) */
+    :root {
+      --bg-primary: #171a21;
+      --bg-card: #2a475e;
+      --text-primary: #c7d5e0;
+      --accent: #00c206;
+      --accent-hover: #009702;
+      --input-bg: #1b2838;
+      --input-border: #4f758e;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; background: #f5f5f5; }
-    header { background: #111; color: #fff; padding: 1rem; text-align: center; }
-    .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
-    .card { background: #fff; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .card h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .card p { margin-bottom: 1rem; }
-    .card button { background: #007bff; border: none; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
-    .card button:hover { background: #0056b3; }
-    .cart, .discount { background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-top: 2rem; }
-    .cart h3, .discount h3 { margin-bottom: 1rem; }
-    .cart ul { list-style: none; margin-bottom: 1rem; }
-    .cart li { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
-    .discount input { padding: 0.5rem; width: calc(100% - 110px); margin-right: 0.5rem; }
-    .discount button { padding: 0.5rem 1rem; }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      width: 100%;
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #000;
+    }
+    .container {
+      margin-top: 3rem;
+      width: 100%;
+      max-width: 400px;
+    }
+    .card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .card p { margin-bottom: 1.5rem; }
+    button {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    button:hover { background: var(--accent-hover); }
+    .verify {
+      margin-top: 1.5rem;
+    }
+    .verify input {
+      width: 100%;
+      padding: 0.5rem;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    .verify button {
+      width: 100%;
+    }
+    .message {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    .message.invalid { color: #ff5050; }
+    .message.valid { color: #8fff6e; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Loja de Gift Cards</h1>
+    <h1>Desconto Free</h1>
   </header>
+
   <div class="container">
-    <div class="grid" id="product-grid">
-      <!-- Gift cards serão inseridos aqui -->
-    </div>
-
-    <div class="cart" id="cart">
-      <h3>Seu Carrinho</h3>
-      <ul id="cart-items"></ul>
-      <div><strong>Total:</strong> R$<span id="cart-total">0.00</span></div>
-    </div>
-
-    <div class="discount">
-      <h3>Cupom de Desconto</h3>
-      <input type="text" id="coupon-code" placeholder="Insira o código">
-      <button id="apply-coupon">Aplicar</button>
-      <p id="coupon-message"></p>
+    <div class="card">
+      <h2>R$ 2,00 OFF</h2>
+      <p>Use nosso cupom exclusivo para obter desconto imediato.</p>
+      <button id="copy-code">Copiar Código</button>
+      <div class="verify">
+        <input type="text" id="input-code" placeholder="Digite o código aqui">
+        <button id="verify-btn">Verificar Código</button>
+        <p class="message" id="message"></p>
+      </div>
     </div>
   </div>
 
   <script>
-    // Dados dos gift cards
-    const products = [
-      { id: 'gc1', name: 'Gift Card R$10', value: 10 },
-      { id: 'gc2', name: 'Gift Card R$25', value: 25 },
-      { id: 'gc3', name: 'Gift Card R$50', value: 50 }
-    ];
+    const couponCode = 'esseW4X69I0XW3K7BS75KD';
+    const discountValue = 2;
+    const copyBtn = document.getElementById('copy-code');
+    const verifyBtn = document.getElementById('verify-btn');
+    const input = document.getElementById('input-code');
+    const messageEl = document.getElementById('message');
 
-    let cart = [];
-    let discountApplied = false;
-    const discountAmount = 2;
-    const validCoupon = 'esseW4X69I0XW3K7BS75KD';
-
-    const productGrid = document.getElementById('product-grid');
-    const cartItemsEl = document.getElementById('cart-items');
-    const cartTotalEl = document.getElementById('cart-total');
-    const couponInput = document.getElementById('coupon-code');
-    const applyCouponBtn = document.getElementById('apply-coupon');
-    const couponMessage = document.getElementById('coupon-message');
-
-    // Renderiza produtos
-    function renderProducts() {
-      products.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <h2>${p.name}</h2>
-          <p>Valor: R$${p.value.toFixed(2)}</p>
-          <button onclick="addToCart('${p.id}')">Adicionar</button>
-        `;
-        productGrid.appendChild(card);
-      });
-    }
-
-    // Adiciona ao carrinho
-    function addToCart(id) {
-      const product = products.find(p => p.id === id);
-      cart.push(product);
-      renderCart();
-    }
-
-    // Renderiza carrinho
-    function renderCart() {
-      cartItemsEl.innerHTML = '';
-      cart.forEach((item, idx) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <span>${item.name} (R$${item.value.toFixed(2)})</span>
-          <button onclick="removeFromCart(${idx})">Remover</button>
-        `;
-        cartItemsEl.appendChild(li);
-      });
-      updateTotal();
-    }
-
-    // Remove do carrinho
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      renderCart();
-    }
-
-    // Calcula e mostra total
-    function updateTotal() {
-      let total = cart.reduce((sum, item) => sum + item.value, 0);
-      if (discountApplied) total = Math.max(0, total - discountAmount);
-      cartTotalEl.textContent = total.toFixed(2);
-    }
-
-    // Aplica cupom
-    applyCouponBtn.addEventListener('click', () => {
-      const code = couponInput.value.trim();
-      if (code === validCoupon && !discountApplied) {
-        discountApplied = true;
-        couponMessage.textContent = `Cupom aplicado! R$${discountAmount.toFixed(2)} de desconto.`;
-        updateTotal();
-      } else if (discountApplied) {
-        couponMessage.textContent = 'Cupom já foi aplicado.';
-      } else {
-        couponMessage.textContent = 'Código inválido.';
-      }
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(couponCode)
+        .then(() => alert('Código copiado: ' + couponCode))
+        .catch(() => alert('Falha ao copiar. Copie manualmente: ' + couponCode));
     });
 
-    // Inicialização
-    renderProducts();
+    verifyBtn.addEventListener('click', () => {
+      const userCode = input.value.trim();
+      if (!userCode) {
+        messageEl.textContent = 'Insira o código para verificar.';
+        messageEl.className = 'message invalid';
+      } else if (userCode === couponCode) {
+        messageEl.textContent = `Código válido! Você recebeu R$ ${discountValue.toFixed(2)} de desconto.`;
+        messageEl.className = 'message valid';
+      } else {
+        messageEl.textContent = 'Código inválido. Tente novamente.';
+        messageEl.className = 'message invalid';
+      }
+    });
   </script>
 </body>
 </html>
-
