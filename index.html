@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Cupom de Desconto Free</title>
+  <title>XT SysteM Shop - Cupom</title>
   <style>
     /* Tema: fundo preto, detalhes roxos, botões brancos */
     :root {
@@ -11,9 +11,6 @@
       --bg-card: #111111;
       --text-primary: #ffffff;
       --accent: #9b59b6; /* roxo */
-      --accent-hover: #8e44ad;
-      --input-bg: #1f1f1f;
-      --input-border: #444444;
       --btn-bg: #ffffff;
       --btn-color: var(--accent);
       --btn-hover-bg: #f2f2f2;
@@ -26,98 +23,62 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       min-height: 100vh;
-    }
-    header {
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      width: 100%; padding: 1rem; text-align: center;
-      border-bottom: 1px solid #222;
-    }
-    .container {
-      margin-top: 3rem; width: 100%; max-width: 400px;
+      text-align: center;
     }
     .card {
       background: var(--bg-card);
-      border-radius: 8px; padding: 2rem;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-      text-align: center;
+      padding: 2rem;
       border: 1px solid var(--accent);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
     }
-    .card h2 {
-      font-size: 1.5rem; margin-bottom: 1rem;
+    h1 {
       color: var(--accent);
+      margin-bottom: 1rem;
     }
-    .card p { margin-bottom: 1.5rem; }
+    p {
+      margin-bottom: 2rem;
+    }
     button {
       background: var(--btn-bg);
       color: var(--btn-color);
       border: 1px solid var(--accent);
       padding: 0.75rem 1.5rem;
-      border-radius: 4px; cursor: pointer;
-      font-size: 1rem; transition: background 0.2s;
-    }
-    button:hover { background: var(--btn-hover-bg); }
-    .verify { margin-top: 1.5rem; }
-    .verify input {
-      width: 100%; padding: 0.5rem;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
+      font-size: 1rem;
       border-radius: 4px;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-    .verify button { width: 100%; }
-    .message { margin-top: 1rem; font-weight: bold; }
-    .message.invalid { color: #ff5050; }
-    .message.valid { color: #8fff6e; }
+    button:hover {
+      background: var(--btn-hover-bg);
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Desconto Free</h1>
-  </header>
 
-  <div class="container">
-    <div class="card">
-      <h2>R$ 2,00 OFF</h2>
-      <p>Use nosso cupom exclusivo para obter desconto imediato.</p>
-      <button id="copy-code">Copiar Código</button>
-      <div class="verify">
-        <input type="text" id="input-code" placeholder="Digite o código aqui">
-        <button id="verify-btn">Verificar Código</button>
-        <p class="message" id="message"></p>
-      </div>
-    </div>
+  <div class="card">
+    <h1>Ganhe R$2,00 OFF!</h1>
+    <p>Clique abaixo para copiar o código e entrar no nosso servidor!</p>
+    <button id="copyButton">Copiar Código e Entrar</button>
   </div>
 
   <script>
-    const couponCode = 'esseW4X69I0XW3K7BS75KD';
-    const discountValue = 2;
-    const copyBtn = document.getElementById('copy-code');
-    const verifyBtn = document.getElementById('verify-btn');
-    const input = document.getElementById('input-code');
-    const messageEl = document.getElementById('message');
+    const couponCode = 'W4X69I0XW3K7BS75KD';
+    const discordLink = 'https://discord.gg/sGgrdHwAcw';
 
-    copyBtn.addEventListener('click', () => {
+    document.getElementById('copyButton').addEventListener('click', () => {
       navigator.clipboard.writeText(couponCode)
-        .then(() => alert('Código copiado: ' + couponCode))
-        .catch(() => alert('Falha ao copiar. Copie manualmente: ' + couponCode));
-    });
-
-    verifyBtn.addEventListener('click', () => {
-      const userCode = input.value.trim();
-      if (!userCode) {
-        messageEl.textContent = 'Insira o código para verificar.';
-        messageEl.className = 'message invalid';
-      } else if (userCode === couponCode) {
-        messageEl.textContent = `Código válido! Você recebeu R$ ${discountValue.toFixed(2)} de desconto.`;
-        messageEl.className = 'message valid';
-      } else {
-        messageEl.textContent = 'Código inválido. Tente novamente.';
-        messageEl.className = 'message invalid';
-      }
+        .then(() => {
+          window.location.href = discordLink;
+        })
+        .catch(err => {
+          alert('Erro ao copiar o código. Por favor, copie manualmente: ' + couponCode);
+          window.location.href = discordLink;
+        });
     });
   </script>
+
 </body>
 </html>
