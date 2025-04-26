@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Cupom de Desconto Free</title>
   <style>
-    /* Cores inspiradas em satzxsystem.shop (dark Steam-like) */
+    /* Tema: fundo preto, detalhes roxos, botões brancos */
     :root {
-      --bg-primary: #171a21;
-      --bg-card: #2a475e;
-      --text-primary: #c7d5e0;
-      --accent: #00c206;
-      --accent-hover: #009702;
-      --input-bg: #1b2838;
-      --input-border: #4f758e;
+      --bg-primary: #000000;
+      --bg-card: #111111;
+      --text-primary: #ffffff;
+      --accent: #9b59b6; /* roxo */
+      --accent-hover: #8e44ad;
+      --input-bg: #1f1f1f;
+      --input-border: #444444;
+      --btn-bg: #ffffff;
+      --btn-color: var(--accent);
+      --btn-hover-bg: #f2f2f2;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -28,58 +31,44 @@
     header {
       background: var(--bg-primary);
       color: var(--text-primary);
-      width: 100%;
-      padding: 1rem;
-      text-align: center;
-      border-bottom: 1px solid #000;
+      width: 100%; padding: 1rem; text-align: center;
+      border-bottom: 1px solid #222;
     }
     .container {
-      margin-top: 3rem;
-      width: 100%;
-      max-width: 400px;
+      margin-top: 3rem; width: 100%; max-width: 400px;
     }
     .card {
       background: var(--bg-card);
-      border-radius: 8px;
-      padding: 2rem;
+      border-radius: 8px; padding: 2rem;
       box-shadow: 0 4px 8px rgba(0,0,0,0.5);
       text-align: center;
+      border: 1px solid var(--accent);
     }
     .card h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+      font-size: 1.5rem; margin-bottom: 1rem;
+      color: var(--accent);
     }
     .card p { margin-bottom: 1.5rem; }
     button {
-      background: var(--accent);
-      border: none;
-      color: #fff;
+      background: var(--btn-bg);
+      color: var(--btn-color);
+      border: 1px solid var(--accent);
       padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.2s;
+      border-radius: 4px; cursor: pointer;
+      font-size: 1rem; transition: background 0.2s;
     }
-    button:hover { background: var(--accent-hover); }
-    .verify {
-      margin-top: 1.5rem;
-    }
+    button:hover { background: var(--btn-hover-bg); }
+    .verify { margin-top: 1.5rem; }
     .verify input {
-      width: 100%;
-      padding: 0.5rem;
+      width: 100%; padding: 0.5rem;
       background: var(--input-bg);
       border: 1px solid var(--input-border);
       border-radius: 4px;
       color: var(--text-primary);
       margin-bottom: 1rem;
     }
-    .verify button {
-      width: 100%;
-    }
-    .message {
-      margin-top: 1rem;
-      font-weight: bold;
-    }
+    .verify button { width: 100%; }
+    .message { margin-top: 1rem; font-weight: bold; }
     .message.invalid { color: #ff5050; }
     .message.valid { color: #8fff6e; }
   </style>
